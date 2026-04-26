@@ -5,6 +5,10 @@
 
 Client::Client(int _id) : id(_id) {}
 
+int Client::get_id(){
+    return this->id;
+}
+
 void Client::buffer_insert(int number){
     std::scoped_lock<std::mutex> lock(this->mtx);
     

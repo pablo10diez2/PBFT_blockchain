@@ -17,6 +17,7 @@ class Client {
 
     public:
         Client(int _id);
+        int get_id();
 
         void buffer_insert(int number);
         void read_buffer();

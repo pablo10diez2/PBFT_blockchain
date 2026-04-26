@@ -5,17 +5,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(SRC ${PROJECT_SOURCE_DIR}/../Src)
+set(Src ${PROJECT_SOURCE_DIR}/../Src)
 
 add_executable(${PROJECT_NAME}
-        ${SRC}/main.cpp
-        ${SRC}/client.cpp
-        ${SRC}/node.cpp
+        ${Src}/main.cpp
+        ${Src}/client.cpp
+        ${Src}/node.cpp
+        ${Src}/message.cpp
+        ${Src}/request.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
-        ${SRC}/
+        ${Src}/
 )
 
 set_target_properties(${PROJECT_NAME}
