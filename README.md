@@ -10,7 +10,7 @@ Commands for linux:
   cd build
   cmake ../
   cmake --build .
-``
+```
 
 From my little experience with CMake in Windows, the process is just the same but when configuring the build folder you will need to specify a compiler like MSVC.
 
