@@ -9,10 +9,10 @@ int Client::get_id(){
     return this->id;
 }
 
-void Client::buffer_insert(int number){
+void Client::buffer_insert(Message* message){
     std::scoped_lock<std::mutex> lock(this->mtx);
     
-    this->buffer.push(number);
+    this->buffer.push(message);
     this->cv.notify_one();
 }
 
@@ -21,7 +21,7 @@ void Client::read_buffer(){
 
     cv.wait(lock, [this]{ return !this->buffer.empty(); } );
     
-    std::cout << this->buffer.front() << std::endl;
+    this->buffer.front()->print();
     this->buffer.pop();
 }
 
@@ -31,6 +31,6 @@ void Client::read_buffer_continuous(){
     }
 }
 
-void Client::send_to_node(Node* node, int number){
-    node->buffer_insert(number);
+void Client::send_to_node(Node* node, Message* message){
+    node->buffer_insert(message);
 }

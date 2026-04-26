@@ -4,7 +4,7 @@
 #include "message.h"
 #include <time.h>
 
-class Request : Message {
+class Request : public Message {
     private:
         bool operation;
         time_t timestamp;

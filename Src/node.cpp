@@ -14,14 +14,14 @@ void Node::print(){
     std::cout << "Node " << this->id << std::endl;
 }
 
-void Node::send_to_client(Client* client, int number){
-    client->buffer_insert(number);
+void Node::send_to_client(Client* client, Message* message){
+    client->buffer_insert(message);
 }
 
-void Node::buffer_insert(int number){
+void Node::buffer_insert(Message* message){
     std::scoped_lock<std::mutex> lock(this->mtx);
 
-    this->buffer.push(number);
+    this->buffer.push(message);
     this->cv.notify_one();
 }
 
@@ -30,7 +30,7 @@ void Node::read_buffer(){
     
     cv.wait(lock, [this]{ return !this->buffer.empty(); } );
 
-    std::cout << this->buffer.front() << std::endl;
+    this->buffer.front()->print();
     this->buffer.pop();
 }   
 
