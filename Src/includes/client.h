@@ -12,13 +12,14 @@ class Node;
 class Client {
     private:
         int id;
+        static int _id;
         std::queue<Message*> buffer;
         
         std::mutex mtx;
         std::condition_variable cv;
 
     public:
-        Client(int _id);
+        Client();
         int get_id();
 
         void buffer_insert(Message* message);

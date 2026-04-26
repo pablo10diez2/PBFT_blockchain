@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME}
         ${Src}/node.cpp
         ${Src}/message.cpp
         ${Src}/request.cpp
+        ${Src}/app.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

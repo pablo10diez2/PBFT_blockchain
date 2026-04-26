@@ -3,7 +3,11 @@
 
 #include <iostream>
 
-Client::Client(int _id) : id(_id) {}
+int Client::_id = 0;
+
+Client::Client() : id(_id) {
+    _id++;
+}
 
 int Client::get_id(){
     return this->id;
