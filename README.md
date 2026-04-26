@@ -1,6 +1,6 @@
 The aim of this project if to implement the Practical Byzantine Fault Tolerance algorithm in C++, but with threads simulating the nodes.
 
-For trying it you just have to clone the repo, go to the Make folder, create the build folder and compile using the CMakeLists.txt.
+For trying it you just have to clone the repo, go to the Make folder, create the build folder, set the build folder and compile using the CMakeLists.txt.
 
 Commands for linux:
 ```bash
