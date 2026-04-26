@@ -18,6 +18,7 @@ class Client {
 
         void buffer_insert(int number);
         void read_buffer();
+        void read_buffer_continuous();
 };
 
 #endif
