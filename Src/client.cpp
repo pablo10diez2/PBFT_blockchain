@@ -1,4 +1,6 @@
 #include <includes/client.h>
+#include <includes/node.h>
+
 #include <iostream>
 
 Client::Client(int _id) : id(_id) {}
@@ -23,4 +25,8 @@ void Client::read_buffer_continuous(){
     while(true){
         read_buffer();
     }
+}
+
+void Client::send_to_node(Node* node, int number){
+    node->buffer_insert(number);
 }
