@@ -2,18 +2,19 @@
 #include "includes/request.h"
 #include "includes/node.h"
 #include "includes/client.h"
+#include "includes/primary_handler.h"
 
 void init_app(){
     std::vector<std::shared_ptr<Node>> nodes;
     init_nodes(&nodes);
 
     Client client{};
-    Request request1{true, 1};
-    Request request2{true, 2};
+
+    set_primary_node(nodes[0]);
     
     std::thread launch_threads(thread_manager, &nodes, &client);
     
-    client.make_request(false, nodes[0].get());
+    client.make_request(false, get_primary_node().get());
 
     launch_threads.join(); 
 }

@@ -15,6 +15,7 @@ add_executable(${PROJECT_NAME}
         ${Src}/request.cpp
         ${Src}/app.cpp
         ${Src}/types.cpp
+        ${Src}/primary_handler.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

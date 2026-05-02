@@ -12,6 +12,9 @@ class Node{
     private:
         int id;
         static int _id;
+        int primary_node_id;
+        int view;
+
         std::queue<Message*> buffer;
 
         std::mutex mtx;

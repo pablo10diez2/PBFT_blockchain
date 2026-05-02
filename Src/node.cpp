@@ -10,6 +10,9 @@ int Node::_id = 0;
 Node::Node(){
     this->id = _id;
     _id++;
+
+    this->view = 0;
+    this->primary_node_id = 0;
 }
 
 void Node::print(){
