@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
         ${Src}/message.cpp
         ${Src}/request.cpp
         ${Src}/app.cpp
+        ${Src}/types.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

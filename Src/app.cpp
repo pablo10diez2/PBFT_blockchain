@@ -9,10 +9,11 @@ void init_app(){
 
     Client client{};
     Request request1{true, 1};
+    Request request2{true, 2};
     
     std::thread launch_threads(thread_manager, &nodes, &client);
     
-    nodes[0].get()->send_to_client(&client, &request1);
+    client.make_request(false, nodes[0].get());
 
     launch_threads.join(); 
 }
@@ -26,7 +27,7 @@ void init_nodes(std::vector<std::shared_ptr<Node>>* nodes){
 
 void thread_manager(std::vector<std::shared_ptr<Node>>* nodes, Client* client){
     std::vector<std::thread> nodes_read_threads;
-
+    
     std::thread client_read_thread = start_client_read_thread(client);
     start_nodes_read_threads(&nodes_read_threads, nodes);
 

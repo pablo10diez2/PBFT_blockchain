@@ -2,6 +2,8 @@
 
 #include "includes/node.h"
 #include "includes/client.h"
+#include "includes/request.h"
+#include "includes/types.h"
 
 int Node::_id = 0;
 
@@ -31,7 +33,14 @@ void Node::read_buffer(){
     cv.wait(lock, [this]{ return !this->buffer.empty(); } );
 
     this->buffer.front()->print();
+
+    Message* buffer_message = this->buffer.front();
     this->buffer.pop();
+
+    if( is_message_request(buffer_message) ){
+        std::cout << "Request has arrived to a node" << std::endl;
+    }
+
 }   
 
 void Node::read_buffer_continuous(){

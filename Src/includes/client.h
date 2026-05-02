@@ -8,12 +8,14 @@
 #include "message.h"
 
 class Node;
+class Request;
 
 class Client {
     private:
         int id;
         static int _id;
         std::queue<Message*> buffer;
+        std::queue<std::shared_ptr<Request>> request_log;
         
         std::mutex mtx;
         std::condition_variable cv;
@@ -26,6 +28,8 @@ class Client {
         void read_buffer();
         void read_buffer_continuous();
         void send_to_node(Node* node, Message* message);
+        void make_request(bool operation, Node* primary_node);
+
 };
 
 #endif

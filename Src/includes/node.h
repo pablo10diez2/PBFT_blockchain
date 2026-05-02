@@ -8,8 +8,6 @@
 #include "client.h"
 #include "message.h"
 
-class Client;
-
 class Node{
     private:
         int id;
