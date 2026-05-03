@@ -4,6 +4,7 @@
 #include "includes/client.h"
 #include "includes/request.h"
 #include "includes/types.h"
+#include "includes/routing_table.h"
 #include "includes/reply.h"
 
 int Node::_id = 0;
@@ -60,6 +61,8 @@ void Node::request_handler(std::shared_ptr<Message> message){
     
     std::shared_ptr<Reply> reply = std::make_shared<Reply>(0,0,0,0,0);
     this->reply_log.push_back(reply);
+    
+    Client* client = get_client(request->get_client_id());
 
-    this->send_to_client(get_client_ptr(), reply);
+    this->send_to_client(client, reply);
 }

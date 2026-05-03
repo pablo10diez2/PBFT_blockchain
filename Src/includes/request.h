@@ -13,6 +13,8 @@ class Request : public Message {
     public:
         Request(bool _operation, int _client_id);
         void print();
+
+        int get_client_id();
 };
 
 #endif

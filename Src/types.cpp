@@ -3,8 +3,6 @@
 #include "includes/message.h"
 #include "includes/reply.h"
 
-Client* client;
-
 bool is_message_request(Message* message){
     if(Request* r = dynamic_cast<Request*>(message); r != nullptr){
         return true;
@@ -20,12 +18,3 @@ bool is_message_reply(Message* message){
 
     return false;
 }
-
-Client* get_client_ptr(){
-    return client;
-}
-
-void set_client_ptr(Client* new_client_ptr){
-    client = new_client_ptr;
-}
-

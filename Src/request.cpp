@@ -11,3 +11,7 @@ void Request::print(){
     this->operation << ", client id: " << this->client_id <<
     ", timestamp: " << this->timestamp << std::endl;
 }
+
+int Request::get_client_id(){
+    return this->client_id;
+}

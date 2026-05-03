@@ -17,6 +17,7 @@ add_executable(${PROJECT_NAME}
         ${Src}/types.cpp
         ${Src}/primary_handler.cpp
         ${Src}/reply.cpp
+        ${Src}/routing_table.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
