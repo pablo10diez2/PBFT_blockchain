@@ -28,12 +28,10 @@ void Client::read_buffer(){
 
     cv.wait(lock, [this]{ return !this->buffer.empty(); } );
     
-    this->buffer.front()->print();
-    
-    Message* message_found = this->buffer.front();
+    Message* message = this->buffer.front();
     this->buffer.pop();
 
-    handle_message_type(message_found);
+    handle_message_type(message);
 }
 
 void Client::read_buffer_continuous(){
@@ -48,7 +46,7 @@ void Client::send_to_node(Node* node, Message* message){
 
 void Client::make_request(bool operation, Node* primary_node){
     std::shared_ptr<Request> ptr = std::make_shared<Request>(operation, this->get_id());
-    this->request_log.push(ptr);
+    this->request_log.push_back(ptr);
 
     this->send_to_node(primary_node, ptr.get());
 }
@@ -63,6 +61,10 @@ void Client::reply_handler(Message* message){
     Reply* reply = dynamic_cast<Reply*>(message);
     
     std::shared_ptr<Reply> ptr = std::make_shared<Reply>(*reply);
-    this->reply_log.push(ptr);
-
+    this->reply_log.push_back(ptr);
+    
+    for(auto const& r : this->reply_log){
+        std::cout << "printing from the client reply_handler"<< std::endl;
+        r.get()->print();
+    }
 }

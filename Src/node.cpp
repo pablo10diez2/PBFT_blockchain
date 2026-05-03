@@ -4,6 +4,7 @@
 #include "includes/client.h"
 #include "includes/request.h"
 #include "includes/types.h"
+#include "includes/reply.h"
 
 int Node::_id = 0;
 
@@ -35,19 +36,30 @@ void Node::read_buffer(){
     
     cv.wait(lock, [this]{ return !this->buffer.empty(); } );
 
-    this->buffer.front()->print();
-
     Message* buffer_message = this->buffer.front();
     this->buffer.pop();
 
-    if( is_message_request(buffer_message) ){
-        std::cout << "Request has arrived to a node" << std::endl;
-    }
-
+    handle_message_type(buffer_message);
 }   
 
 void Node::read_buffer_continuous(){
     while(true){
         read_buffer();
     }
+}
+
+void Node::handle_message_type(Message* message){
+    if(is_message_request(message)){
+        request_handler(message);
+    }
+}
+
+void Node::request_handler(Message* message){
+    Request* request = dynamic_cast<Request*>(message);
+    std::cout <<"a request has been sent to the client" << std::endl;
+    
+    std::shared_ptr<Reply> reply = std::make_shared<Reply>(0,0,0,0,0);
+    this->reply_log.push_back(reply);
+
+    this->send_to_client(get_client_ptr(), reply.get());
 }

@@ -16,6 +16,7 @@ class Node{
         int view;
 
         std::queue<Message*> buffer;
+        std::deque<std::shared_ptr<Reply>> reply_log;
 
         std::mutex mtx;
         std::condition_variable cv;
@@ -28,6 +29,8 @@ class Node{
         void buffer_insert(Message* message);
         void read_buffer();
         void read_buffer_continuous();
+        void handle_message_type(Message* message);
+        void request_handler(Message* message);
 };
 
 #endif

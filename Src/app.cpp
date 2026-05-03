@@ -3,12 +3,14 @@
 #include "includes/node.h"
 #include "includes/client.h"
 #include "includes/primary_handler.h"
+#include "includes/types.h"
 
 void init_app(){
     std::vector<std::shared_ptr<Node>> nodes;
     init_nodes(&nodes);
 
     Client client{};
+    set_client_ptr(&client);
 
     set_primary_node(nodes[0]);
     

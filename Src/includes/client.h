@@ -16,8 +16,8 @@ class Client {
         int id;
         static int _id;
         std::queue<Message*> buffer;
-        std::queue<std::shared_ptr<Request>> request_log;
-        std::queue<std::shared_ptr<Reply>> reply_log;
+        std::deque<std::shared_ptr<Request>> request_log;
+        std::deque<std::shared_ptr<Reply>> reply_log;
         
         std::mutex mtx;
         std::condition_variable cv;
