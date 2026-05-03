@@ -16,7 +16,7 @@ int Client::get_id(){
     return this->id;
 }
 
-void Client::buffer_insert(Message* message){
+void Client::buffer_insert(std::shared_ptr<Message> message){
     std::scoped_lock<std::mutex> lock(this->mtx);
     
     this->buffer.push(message);
@@ -28,7 +28,7 @@ void Client::read_buffer(){
 
     cv.wait(lock, [this]{ return !this->buffer.empty(); } );
     
-    Message* message = this->buffer.front();
+    std::shared_ptr<Message> message = this->buffer.front();
     this->buffer.pop();
 
     handle_message_type(message);
@@ -40,7 +40,7 @@ void Client::read_buffer_continuous(){
     }
 }
 
-void Client::send_to_node(Node* node, Message* message){
+void Client::send_to_node(Node* node, std::shared_ptr<Message> message){
     node->buffer_insert(message);
 }
 
@@ -48,17 +48,17 @@ void Client::make_request(bool operation, Node* primary_node){
     std::shared_ptr<Request> ptr = std::make_shared<Request>(operation, this->get_id());
     this->request_log.push_back(ptr);
 
-    this->send_to_node(primary_node, ptr.get());
+    this->send_to_node(primary_node, ptr);
 }
 
-void Client::handle_message_type(Message* message){
-    if(is_message_reply(message)){
+void Client::handle_message_type(std::shared_ptr<Message> message){
+    if(is_message_reply(message.get())){
         reply_handler(message);
     }
 }
 
-void Client::reply_handler(Message* message){
-    Reply* reply = dynamic_cast<Reply*>(message);
+void Client::reply_handler(std::shared_ptr<Message> message){
+    Reply* reply = dynamic_cast<Reply*>(message.get());
     
     std::shared_ptr<Reply> ptr = std::make_shared<Reply>(*reply);
     this->reply_log.push_back(ptr);
