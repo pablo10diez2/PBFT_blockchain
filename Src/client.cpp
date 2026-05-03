@@ -1,6 +1,8 @@
 #include "includes/client.h"
 #include "includes/node.h"
 #include "includes/request.h"
+#include "includes/types.h"
+#include "includes/reply.h"
 
 #include <iostream>
 
@@ -30,6 +32,8 @@ void Client::read_buffer(){
     
     Message* message_found = this->buffer.front();
     this->buffer.pop();
+
+    handle_message_type(message_found);
 }
 
 void Client::read_buffer_continuous(){
@@ -47,4 +51,18 @@ void Client::make_request(bool operation, Node* primary_node){
     this->request_log.push(ptr);
 
     this->send_to_node(primary_node, ptr.get());
+}
+
+void Client::handle_message_type(Message* message){
+    if(is_message_reply(message)){
+        reply_handler(message);
+    }
+}
+
+void Client::reply_handler(Message* message){
+    Reply* reply = dynamic_cast<Reply*>(message);
+    
+    std::shared_ptr<Reply> ptr = std::make_shared<Reply>(*reply);
+    this->reply_log.push(ptr);
+
 }
