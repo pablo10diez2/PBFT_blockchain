@@ -17,6 +17,10 @@ Node::Node(){
     this->primary_node_id = 0;
 }
 
+int Node::get_id(){
+    return this->id;
+}
+
 void Node::print(){
     std::cout << "Node " << this->id << std::endl;
 }

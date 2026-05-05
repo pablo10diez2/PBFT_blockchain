@@ -23,7 +23,8 @@ class Node{
     
     public:
         Node();
-        
+        int get_id();
+
         void print();
         void send_to_client(Client* client, std::shared_ptr<Message> message);
         void buffer_insert(std::shared_ptr<Message> message);
