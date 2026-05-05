@@ -28,6 +28,7 @@ void init_nodes(std::vector<std::shared_ptr<Node>>* nodes){
     for(int i = 0; i < 10; ++i){
         std::shared_ptr<Node> ptr = std::make_shared<Node>();
         nodes->push_back(ptr);
+        add_node(ptr.get());
     }
 }
 

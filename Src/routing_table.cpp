@@ -31,12 +31,12 @@ void delete_node(int node_id){
     node_map.erase(node_id);
 }
 
-std::queue<int> get_available_node_ids(){
-    std::queue<int> available_node_ids;
+std::deque<int> get_available_node_ids(){
+    std::deque<int> available_node_ids;
     
     std::shared_lock<std::shared_mutex> lock(node_mutex);
     for(const auto& [key, value] : node_map){
-        available_node_ids.push(key);
+        available_node_ids.push_back(key);
     }
 
     lock.unlock();

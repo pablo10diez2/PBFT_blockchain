@@ -28,6 +28,7 @@ class Node{
         void print();
         void send_to_client(Client* client, std::shared_ptr<Message> message);
         void buffer_insert(std::shared_ptr<Message> message);
+        void multicast(std::shared_ptr<Message> message);
         void read_buffer();
         void read_buffer_continuous();
         void handle_message_type(std::shared_ptr<Message> message);

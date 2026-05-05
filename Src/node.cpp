@@ -29,6 +29,18 @@ void Node::send_to_client(Client* client, std::shared_ptr<Message> message){
     client->buffer_insert(message);
 }
 
+void Node::multicast(std::shared_ptr<Message> message){
+    std::deque<int> available_nodes = get_available_node_ids();
+    
+    for(const auto& i : available_nodes){
+        Node* node = get_node(i);
+
+        if(node != 0 && i != this->id){
+            node->buffer_insert(message);
+        }
+    }
+}
+
 void Node::buffer_insert(std::shared_ptr<Message> message){
     std::scoped_lock<std::mutex> lock(this->mtx);
 
@@ -43,6 +55,8 @@ void Node::read_buffer(){
 
     std::shared_ptr<Message> message = this->buffer.front();
     this->buffer.pop();
+    
+    message.get()->print();
 
     handle_message_type(message);
 }   
@@ -66,7 +80,5 @@ void Node::request_handler(std::shared_ptr<Message> message){
     std::shared_ptr<Reply> reply = std::make_shared<Reply>(0,0,0,0,0);
     this->reply_log.push_back(reply);
     
-    Client* client = get_client(request->get_client_id());
-
-    this->send_to_client(client, reply);
+    this->multicast(reply);
 }
