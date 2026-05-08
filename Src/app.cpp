@@ -12,16 +12,14 @@ void init_app(){
     init_nodes(&nodes);
 
     Client client{};
-
     add_client(&client);
+    int client_id = client.get_id();
 
-    set_primary_node(nodes[0]);
+    std::thread launch_threads(thread_manager, &nodes, client_id);
+    std::thread interaction_thread(client_interaction, client_id);
     
-    std::thread launch_threads(thread_manager, &nodes, &client);
-    
-    client.make_request(false, get_primary_node().get());
-
     launch_threads.join(); 
+    interaction_thread.join();
 }
 
 void init_nodes(std::vector<std::shared_ptr<Node>>* nodes){
@@ -30,12 +28,20 @@ void init_nodes(std::vector<std::shared_ptr<Node>>* nodes){
         nodes->push_back(ptr);
         add_node(ptr.get());
     }
+
+    set_primary_node( (*nodes)[0] );
 }
 
-void thread_manager(std::vector<std::shared_ptr<Node>>* nodes, Client* client){
-    std::vector<std::thread> nodes_read_threads;
+void client_interaction(int client_id){
+    Client* client = get_client(client_id);
     
-    std::thread client_read_thread = start_client_read_thread(client);
+    client->make_request(false, get_primary_node().get());
+}
+
+void thread_manager(std::vector<std::shared_ptr<Node>>* nodes, int client_id){
+    std::vector<std::thread> nodes_read_threads;
+
+    std::thread client_read_thread = start_client_read_thread(client_id);
     start_nodes_read_threads(&nodes_read_threads, nodes);
 
     client_read_thread.join();
@@ -45,7 +51,9 @@ void thread_manager(std::vector<std::shared_ptr<Node>>* nodes, Client* client){
     }
 }
 
-std::thread start_client_read_thread(Client* client){
+std::thread start_client_read_thread(int client_id){
+    Client* client = get_client(client_id);
+
     std::thread t(&Client::read_buffer_continuous, client);
 
     return std::move(t);
