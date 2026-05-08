@@ -6,6 +6,7 @@
 #include "includes/types.h"
 #include "includes/routing_table.h"
 #include "includes/reply.h"
+#include "includes/preprepare.h"
 
 int Node::_id = 0;
 
@@ -75,10 +76,8 @@ void Node::handle_message_type(std::shared_ptr<Message> message){
 
 void Node::request_handler(std::shared_ptr<Message> message){
     Request* request = dynamic_cast<Request*>(message.get());
-    std::cout <<"a request has been sent to the client" << std::endl;
     
-    std::shared_ptr<Reply> reply = std::make_shared<Reply>(0,0,0,0,0);
-    this->reply_log.push_back(reply);
+    std::shared_ptr<Preprepare> preprepare = std::make_shared<Preprepare>(0,0,0);
     
-    this->multicast(reply);
+    this->multicast(preprepare);
 }
