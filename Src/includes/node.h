@@ -16,7 +16,7 @@ class Node{
         int view;
 
         std::queue<std::shared_ptr<Message>> buffer;
-        std::deque<std::shared_ptr<Reply>> reply_log;
+        std::deque<std::shared_ptr<Message>> log;
 
         std::mutex mtx;
         std::condition_variable cv;
