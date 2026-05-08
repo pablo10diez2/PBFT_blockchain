@@ -77,8 +77,6 @@ void Node::handle_message_type(std::shared_ptr<Message> message){
 void Node::request_handler(std::shared_ptr<Message> message){
     Request* request = dynamic_cast<Request*>(message.get());
     
-    //check if we accept the request
-
     std::shared_ptr<Preprepare> preprepare = std::make_shared<Preprepare>(0,0,0);
     this->log.push_back(preprepare);
     
