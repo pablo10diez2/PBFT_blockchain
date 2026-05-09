@@ -69,9 +69,12 @@ void Node::read_buffer_continuous(){
 }
 
 void Node::handle_message_type(std::shared_ptr<Message> message){
-    if(is_message_request(message.get())){
+    Message* message_raw = message.get();
+
+    if(is_message_request(message_raw)){
         request_handler(message);
     }
+
 }
 
 void Node::request_handler(std::shared_ptr<Message> message){

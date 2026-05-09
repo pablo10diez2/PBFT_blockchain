@@ -18,3 +18,11 @@ bool is_message_reply(Message* message){
 
     return false;
 }
+
+bool is_message_preprepare(Message* message){
+    if(Preprepare* p = dynamic_cast<Preprepare*>(message); p != nullptr){
+        return true;
+    }
+    
+    return false;
+}

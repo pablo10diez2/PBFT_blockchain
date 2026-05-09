@@ -28,11 +28,13 @@ class Client {
         void buffer_insert(std::shared_ptr<Message> message);
         void read_buffer();
         void read_buffer_continuous();
+
         void send_to_node(Node* node, std::shared_ptr<Message> message);
         void make_request(bool operation, Node* primary_node);
+        
         void handle_message_type(std::shared_ptr<Message> message);
         void reply_handler(std::shared_ptr<Message> message);
-
+        
 };
 
 #endif
