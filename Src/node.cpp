@@ -7,6 +7,7 @@
 #include "includes/routing_table.h"
 #include "includes/reply.h"
 #include "includes/preprepare.h"
+#include "includes/primary_handler.h"
 
 int Node::_id = 0;
 
@@ -74,14 +75,33 @@ void Node::handle_message_type(std::shared_ptr<Message> message){
     if(is_message_request(message_raw)){
         request_handler(message);
     }
-
+    
+    else if(is_message_preprepare(message_raw)){
+        preprepare_handler(message);
+    }
 }
 
 void Node::request_handler(std::shared_ptr<Message> message){
     Request* request = dynamic_cast<Request*>(message.get());
     
-    std::shared_ptr<Preprepare> preprepare = std::make_shared<Preprepare>(0,0,0);
-    this->log.push_back(preprepare);
+    if( this->get_id() != get_primary_id() ){
+        unicast_to_primary(message);
+    }
     
-    this->multicast(preprepare);
+    else{
+        std::shared_ptr<Preprepare> preprepare = std::make_shared<Preprepare>(0,0,0);
+        this->log.push_back(preprepare);
+    
+        this->multicast(preprepare);
+    }
+}
+
+void Node::preprepare_handler(std::shared_ptr<Message> message){
+
+}
+
+void Node::unicast_to_primary(std::shared_ptr<Message> message){
+    std::shared_ptr<Node> primary = get_primary_node();
+
+    primary.get()->buffer_insert(message);
 }

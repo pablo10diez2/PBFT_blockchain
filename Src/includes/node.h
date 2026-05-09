@@ -24,15 +24,18 @@ class Node{
     public:
         Node();
         int get_id();
-
         void print();
+
         void send_to_client(Client* client, std::shared_ptr<Message> message);
         void buffer_insert(std::shared_ptr<Message> message);
         void multicast(std::shared_ptr<Message> message);
+        void unicast_to_primary(std::shared_ptr<Message> message);
         void read_buffer();
         void read_buffer_continuous();
+        
         void handle_message_type(std::shared_ptr<Message> message);
         void request_handler(std::shared_ptr<Message> message);
+        void preprepare_handler(std::shared_ptr<Message> message);
 };
 
 #endif

@@ -10,6 +10,12 @@ std::shared_ptr<Node> get_primary_node(){
     return primary_node;
 }
 
+int get_primary_id(){
+    std::shared_lock<std::shared_mutex> lock(primary_shared_mutex);
+
+    return primary_node.get()->get_id();
+}
+
 void set_primary_node(std::shared_ptr<Node> new_primary_node){
     std::scoped_lock<std::shared_mutex> lock(primary_shared_mutex);
 

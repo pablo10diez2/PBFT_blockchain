@@ -2,6 +2,7 @@
 #include "includes/request.h"
 #include "includes/message.h"
 #include "includes/reply.h"
+#include "includes/preprepare.h"
 
 bool is_message_request(Message* message){
     if(Request* r = dynamic_cast<Request*>(message); r != nullptr){
